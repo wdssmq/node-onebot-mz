@@ -25,8 +25,10 @@ const loginInfo: loginInfoInterface = {
     // }
     // 改写为 Promise
     _login: () => new Promise((resolve, reject) => {
-        if (!loginInfo.account || !loginInfo.password) {
+        const flag = loginInfo.account && loginInfo.password
+        if (!flag) {
             reject({ msg: '账号或密码为空' })
+            return
         }
         if (!loginInfo.hasLogin) {
             client.login(loginInfo.account, loginInfo.password)
