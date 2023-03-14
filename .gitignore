@@ -108,5 +108,8 @@ dist
 # TernJS port file
 .tern-port
 
+# current project
+data
+
 # others
 note-*
