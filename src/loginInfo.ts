@@ -1,4 +1,4 @@
-import { loginInfoInterface } from './types'
+import { loginInfoInterface, configInterface } from './types'
 import { fnStdin } from './base/utils'
 import { client } from './main'
 
@@ -11,10 +11,20 @@ const loginInfo: loginInfoInterface = {
         loginInfo.account = Number(await fnStdin('请输入账号:'))
         loginInfo.password = await fnStdin('请输入密码:')
     },
-    // 从 .env 中读取账号密码
-    _loadEnv: async () => {
-        loginInfo.account = Number(process.env.ACCOUNT)
-        loginInfo.password = process.env.PASSWORD as string
+    // 从 config 中读取账号密码
+    _loadCnf: async (config: configInterface) => {
+        // console.log(config)
+        for (const key in config) {
+            if (Object.prototype.hasOwnProperty.call(config, key)) {
+                const item = config[key]
+                // 判断 item 是否有 password 属性
+                if (item.password) {
+                    loginInfo.account = Number(key)
+                    loginInfo.password = item.password as string
+                    return
+                }
+            }
+        }
     },
     // 登录
     // _login: async () => {

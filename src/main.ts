@@ -1,4 +1,5 @@
 import { createClient } from 'icqq'
+import config from '../config.js'
 import { fnStdin } from './base/utils'
 import { fnSliderHandler, fnQRCodeHandler, fnDeviceHandler } from './eventHandler/login'
 import { loginInfo } from './loginInfo'
@@ -21,7 +22,7 @@ const fnAskLoginType = async () => {
     console.log('请选择登录方式：')
     console.log('1. 扫码登录')
     console.log('2. 账号密码登录')
-    console.log('3. 从 .env 中读取账号密码登录')
+    console.log('3. 从 config 中读取账号密码登录')
     const loginType = await fnStdin('请输入数字:')
     switch (loginType) {
         case '1':
@@ -34,7 +35,7 @@ const fnAskLoginType = async () => {
             })
             break
         case '3':
-            loginInfo._loadEnv().then(loginInfo._login).catch(() => {
+            loginInfo._loadCnf(config).then(loginInfo._login).catch(() => {
                 client.logger.warn('读取 .env 失败，请尝试其他登录方式；')
                 fnAskLoginType()
             })
