@@ -110,6 +110,9 @@ dist
 
 # current project
 data
+lib
+config.js
 
 # others
 note-*
+*.bak
